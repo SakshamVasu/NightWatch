@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#090e18" />
+  <meta name="description" content="A private, local Nmap scan report viewer." />
+  <title>Nightwatch — Nmap Report</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Nightwatch home"><span class="brand-mark"><i></i><i></i><i></i></span><span>NIGHTWATCH<span class="brand-sub">SCAN INTELLIGENCE</span></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <button class="workspace"><span class="workspace-icon">⌘</span><span>Local analysis</span><span class="chevron">⌄</span></button>
+      <div class="side-label report-label">REPORT SECTIONS</div>
+      <nav id="side-nav" aria-label="Report sections">
+        <button class="nav-item active" data-tab="overview"><span class="nav-icon">◫</span>Overview</button>
+        <button class="nav-item" data-tab="hosts"><span class="nav-icon">⌘</span>Discovered hosts<span class="nav-count" id="nav-hosts">0</span></button>
+        <button class="nav-item" data-tab="ports"><span class="nav-icon">⇄</span>Ports & services<span class="nav-count" id="nav-ports">0</span></button>
+        <button class="nav-item" data-tab="findings"><span class="nav-icon">◇</span>Findings<span class="nav-count" id="nav-findings">0</span></button>
+        <button class="nav-item" data-tab="scripts"><span class="nav-icon">▤</span>Script results<span class="nav-count" id="nav-scripts">0</span></button>
+        <button class="nav-item" data-tab="web"><span class="nav-icon">◎</span>Web findings<span class="nav-count" id="nav-web">0</span></button>
+        <button class="nav-item" data-tab="network"><span class="nav-icon">⌁</span>OS & network</button>
+        <button class="nav-item" data-tab="raw"><span class="nav-icon">{ }</span>Raw output</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="privacy-dot"></div><div><strong>Private by design</strong><span>Analysis stays in this browser.</span></div></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><div class="breadcrumbs"><span>Workspace</span><b>/</b><span class="crumb-current">Scan reports</span></div><div class="top-actions"><span class="local-badge"><i></i>LOCAL ANALYSIS</span><button class="icon-button" id="help-button" aria-label="About this report viewer">?</button><div class="avatar">NW</div></div></header>
+      <section class="content">
+        <div class="page-heading"><div><div class="eyebrow">SECURITY OBSERVABILITY <span>·</span> REPORT VIEWER</div><h1>Nmap scan report</h1><p>Turn raw scan output into a clear, navigable assessment.</p></div><button class="button button-quiet" id="replace-button" hidden>↺ <span>Replace scan</span></button></div>
+        <div class="upload-panel" id="upload-panel">
+          <div class="upload-orbit"><div class="file-glyph"><span>TXT</span><b>↥</b></div><i class="orbit-dot"></i></div>
+          <div class="upload-copy"><h2>Bring your scan into focus</h2><p>Drop a raw Nmap output file here, or browse to choose one. Supports standard <code>-oN</code>, <code>-oG</code>, and <code>-oX</code> output.</p><div class="upload-meta"><span><i>✓</i> Parsed in your browser</span><span><i>✓</i> No upload to a server</span></div></div>
+          <div class="upload-action"><button class="button button-primary" id="browse-button"><span>↑</span> Choose scan file</button><span class="file-limit">TXT, NMAP, XML · UP TO 20 MB</span></div>
+          <input type="file" id="file-input" accept=".txt,.nmap,.gnmap,.xml,.scan,text/plain,application/xml" hidden />
+          <div class="drop-hint">DROP FILE TO ANALYZE</div>
+        </div>
+        <div id="report" hidden>
+          <div class="scan-banner"><div class="scan-status"><span class="status-icon">✓</span><div><strong id="scan-name">Scan loaded</strong><span id="scan-meta">Nmap report · Parsed locally</span></div></div><div class="scan-banner-right"><span class="parsed-chip"><i></i> PARSED</span><button class="button button-outline" id="export-button">↓ <span>Export summary</span></button></div></div>
+          <div class="tab-content" id="tab-overview"></div>
+          <div class="tab-content" id="tab-hosts" hidden></div>
+          <div class="tab-content" id="tab-ports" hidden></div>
+          <div class="tab-content" id="tab-findings" hidden></div>
+          <div class="tab-content" id="tab-scripts" hidden></div>
+          <div class="tab-content" id="tab-web" hidden></div>
+          <div class="tab-content" id="tab-network" hidden></div>
+          <div class="tab-content" id="tab-raw" hidden></div>
+        </div>
+        <footer class="page-footer"><span>Nightwatch <b>·</b> Local scan report viewer</span><span>Findings reflect only what the supplied scan output reports.</span></footer>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="help-dialog"><button class="dialog-close" aria-label="Close">×</button><div class="eyebrow">ABOUT THE ANALYSIS</div><h2>Read the evidence carefully</h2><p>Nightwatch formats the contents of your Nmap report. It does not run a scan or verify the target independently.</p><ul><li><strong>Reported finding</strong> means the scan output explicitly labels a result or vulnerability.</li><li><strong>Version-associated</strong> means a service version is visible; that alone does not establish that it is vulnerable.</li><li><strong>Unparsed output</strong> remains available in the raw report for your review.</li></ul><p>Files are parsed locally in this browser and are never sent to a server.</p></dialog>
+  <script src="parser.js"></script><script src="app.js"></script>
+</body>
+</html>
